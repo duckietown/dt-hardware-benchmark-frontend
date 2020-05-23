@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { DropzoneArea } from 'material-ui-dropzone'
@@ -11,6 +11,7 @@ import {
   Divider, 
   LinearProgress
 } from '@material-ui/core';
+import {session} from 'common/session'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -38,25 +39,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
-const DropzoneAreaExample = props => {
-  const { filetype, onUpload, ...rest } = props;
-  return (
-    <DropzoneArea
-      {...rest}
-      onChange={onUpload}
-      acceptedFiles={[filetype]}
-      filesLimit={1}
-      showFileNamesInPreview={true}
-    />
-  )
-}
-
 const UploadCard = props => {
-  const { className, product, progress, ...rest } = props;
+  const { className, onChange, ...rest } = props;
 
   const classes = useStyles();
+  const [dropdowns, setDropdowns] = useState([])
 
+  useEffect(() => {
+    const retrieveDDs = async() => {
+      
+    }  
+  }, [])
   return (
     <Card
       {...rest}
@@ -68,29 +61,27 @@ const UploadCard = props => {
           gutterBottom
           variant="h4"
         >
-          {product.title}
+          Meta
         </Typography>
         <Typography
           align="center"
           variant="body1"
         >
-          {product.description}
+          Enter the Meta data, can not be retrieved from the measurments
         </Typography>
       </CardContent>
       <Divider />
       <CardActions>
-        <DropzoneAreaExample filetype={product.filetype} onUpload={product.onUpload} />
       </CardActions>
-
+        {dropdowns.map(dd => )}
       <Divider />
-      <LinearProgress variant="determinate" value={progress} />
     </Card >
   );
 };
 
 UploadCard.propTypes = {
   className: PropTypes.string,
-  product: PropTypes.object.isRequired
+  onChange: PropTypes.func.isRequired
 };
 
 export default UploadCard;
