@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { DropzoneArea } from 'material-ui-dropzone'
@@ -8,7 +8,8 @@ import {
   CardContent,
   CardActions,
   Typography,
-  Divider
+  Divider, 
+  LinearProgress
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -38,12 +39,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const DropzoneAreaExample = (filetype, onChange) => {
-  
+const DropzoneAreaExample = props => {
+  const { filetype, onUpload, ...rest } = props;
   return (
     <DropzoneArea
-      onChange={onChange}
-      acceptedFiles={[filetype.filetype]}
+      onChange={onUpload}
+      acceptedFiles={[filetype]}
       filesLimit={1}
       showFileNamesInPreview={true}
     />
@@ -51,7 +52,7 @@ const DropzoneAreaExample = (filetype, onChange) => {
 }
 
 const UploadCard = props => {
-  const { className, product, ...rest } = props;
+  const { className, product, progress, ...rest } = props;
 
   const classes = useStyles();
 
@@ -77,9 +78,12 @@ const UploadCard = props => {
       </CardContent>
       <Divider />
       <CardActions>
-        <DropzoneAreaExample filetype={product.filetype} onChange={product.onUpload}/>
+        <DropzoneAreaExample filetype={product.filetype} onUpload={product.onUpload} />
       </CardActions>
-    </Card>
+
+      <Divider />
+      <LinearProgress variant="determinate" value={progress} />
+    </Card >
   );
 };
 
