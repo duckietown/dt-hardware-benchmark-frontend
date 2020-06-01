@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { DropzoneArea } from 'material-ui-dropzone'
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
   CardContent,
   CardActions,
   Typography,
-  Divider, 
-  LinearProgress
+  Divider,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
 } from '@material-ui/core';
-import {session} from 'common/session'
+import { session } from 'common/session'
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    height: '100%'
+  },
   imageContainer: {
     height: 64,
     width: 64,
@@ -43,13 +47,35 @@ const UploadCard = props => {
   const { className, onChange, ...rest } = props;
 
   const classes = useStyles();
-  const [dropdowns, setDropdowns] = useState([])
+  const [meta, setMeta] = useState({})
+  const [meta_selected, setMeta_selected] = useState({})
 
   useEffect(() => {
-    const retrieveDDs = async() => {
-      
-    }  
+    const retrieveBMmeta = async () => {
+      const res = await session.get('/hw_benchmark/meta')
+      const sel = {}
+      console.log(res.data)
+      res.data.dropdowns.forEach(element => {
+        sel[element.key] = element.content[element.content.length - 1]
+      });
+      setMeta_selected(sel)
+      setMeta(res.data)
+    }
+    retrieveBMmeta()
   }, [])
+  
+  useEffect(() => {
+    console.log(meta)
+  }, [meta])
+
+
+  const handleChange = (event, key) => {
+    const meta_clone = JSON.parse(JSON.stringify(meta_selected))
+    meta_clone[key] = event.target.value;
+    setMeta_selected(meta_clone)
+    onChange(meta_clone)
+  };
+
   return (
     <Card
       {...rest}
@@ -61,7 +87,7 @@ const UploadCard = props => {
           gutterBottom
           variant="h4"
         >
-          Meta
+          Manual Meta
         </Typography>
         <Typography
           align="center"
@@ -72,8 +98,20 @@ const UploadCard = props => {
       </CardContent>
       <Divider />
       <CardActions>
+        {meta && meta['dropdowns'] ? meta.dropdowns.map(dd =>
+          <div key={dd.key}>
+            <InputLabel id="demo-simple-select-label">{dd.name}</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={meta_selected[dd.key]}
+              onChange={evt => handleChange(evt, dd.key)}
+            >
+              {dd.content.map(elem => <MenuItem value={elem}>{elem}</MenuItem>)}
+            </Select>
+          </div>
+        ): ''}
       </CardActions>
-        {dropdowns.map(dd => )}
       <Divider />
     </Card >
   );

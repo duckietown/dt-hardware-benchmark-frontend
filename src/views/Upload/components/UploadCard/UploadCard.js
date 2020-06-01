@@ -47,6 +47,7 @@ const DropzoneAreaExample = props => {
       onChange={onUpload}
       acceptedFiles={[filetype]}
       filesLimit={1}
+      maxFileSize={3000000000}
       showFileNamesInPreview={true}
     />
   )

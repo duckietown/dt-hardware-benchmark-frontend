@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { UploadCard, MetaCard } from './components';
 import files_config from './files_config'
-import {session} from 'common/session'
+import { session } from 'common/session'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,8 +16,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const postFiles = async (files) => {
-  const result = await session.post('/hw_benchmark/files', files)
+const postFiles = async (data, meta) => {
+  console.log(meta)
+  data.append('meta', JSON.stringify(meta))
+
+  const result = await session.post('/hw_benchmark/files', data)
   console.log(result)
 }
 
@@ -25,69 +28,30 @@ const postFiles = async (files) => {
 
 const UserList = () => {
   const classes = useStyles();
-  const [files, set_files] = useState({})
+  const [data, _] = useState(new FormData())
   const [progress, set_progress] = useState({})
-  const [complete, setComplete] = useState(false)
+  const [meta, set_meta] = useState({})
+  const [complete, setComplete] = useState(true)
 
   const upload = () => {
     console.log("uploading")
-    postFiles(files)
+    postFiles(data, meta)
   }
 
   useEffect(() => {
+    console.log(meta)
+  }, [meta])
+  /*useEffect(() => {
     let complete = true
     files_config.forEach(file => { complete = complete && files[file.key] != null })
     setComplete(complete)
-  }, [files])
-
-  const updateProgressState = (key, value) => {
-    const progress_clone = JSON.parse(JSON.stringify(progress))
-    progress_clone[key] = value
-    set_progress(progress_clone)
-  }
-
-  const updateFileState = (key, value) => {
-    const files_clone = JSON.parse(JSON.stringify(files))
-    files_clone[key] = value
-    set_files(files_clone)
-  }
+  }, [files]) */
 
   const handleChange = (up, key) => {
     if (up[0]) {
-      getAsText(up[0], key)
-    }
-  }
-
-  const getAsText = (readFile, key) => {
-
-    var reader = new FileReader();
-    reader.readAsText(readFile, "base64");
-
-    reader.onprogress = evt => updateProgress(evt, key);
-    reader.onload = evt => loaded(evt, key);
-    reader.onerror = errorHandler;
-  }
-
-  const updateProgress = (evt, key) => {
-    if (evt.lengthComputable) {
-      var loaded = (evt.loaded / evt.total);
-      if (loaded < 1) {
-        console.log(loaded)
-        updateProgressState(key, loaded * 100)
-      }
-    }
-  }
-
-  const loaded = (evt, key) => {
-    var fileString = evt.target.result;
-    // Do testing here
-    updateProgressState(key, 100)
-    updateFileState(key, fileString)
-  }
-
-  const errorHandler = (evt) => {
-    if (evt.target.error.name === "NotReadableError") {
-      console.error("file not readable")
+      //getAsText(up[0], key)
+      // updateFileState(key, up[0])
+      data.append(key, up[0])
     }
   }
 
@@ -117,12 +81,12 @@ const UserList = () => {
             xl={6}
             xs={12}
           >
-            <MetaCard  />
+            <MetaCard onChange={set_meta} />
           </Grid>
         </Grid>
         <Button variant="contained" color="primary" onClick={upload} disabled={!complete}>
           Upload
-          </Button>
+        </Button>
       </div>
     </div>
   );
