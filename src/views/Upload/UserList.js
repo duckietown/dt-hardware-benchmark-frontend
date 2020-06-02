@@ -34,13 +34,8 @@ const UserList = () => {
   const [complete, setComplete] = useState(true)
 
   const upload = () => {
-    console.log("uploading")
     postFiles(data, meta)
   }
-
-  useEffect(() => {
-    console.log(meta)
-  }, [meta])
   /*useEffect(() => {
     let complete = true
     files_config.forEach(file => { complete = complete && files[file.key] != null })

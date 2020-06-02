@@ -63,11 +63,6 @@ const UploadCard = props => {
     }
     retrieveBMmeta()
   }, [])
-  
-  useEffect(() => {
-    console.log(meta)
-  }, [meta])
-
 
   const handleChange = (event, key) => {
     const meta_clone = JSON.parse(JSON.stringify(meta_selected))
