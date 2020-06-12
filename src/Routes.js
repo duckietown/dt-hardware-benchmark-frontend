@@ -17,10 +17,10 @@ import {
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/dashboard"
+      <Redirect 
+        exact 
+        from="/" 
+        to="/dashboard" 
       />
       <RouteWithLayout
         component={DashboardView}

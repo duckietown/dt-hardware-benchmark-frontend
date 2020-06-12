@@ -14,7 +14,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { Doughnut } from 'react-chartjs-2';
 import { saveAs } from 'file-saver';
-import { session } from 'common/session'
+import { session } from 'common/session';
 import { api_url } from 'config';
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     margin: '0 auto',
     border: `1px solid ${theme.palette.divider}`,
     display: 'flex',
-    borderRadius: '5px',
+    borderRadius: '5px'
   },
   image: {
     width: '100%'
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.icon,
     marginRight: theme.spacing(1)
   },
-  clickable:{
+  clickable: {
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer'
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function rgb(r, g, b) {
-  return { 'red': r, 'green': g, 'blue': b }
+  return { red: r, green: g, blue: b };
 }
 
 function colorGradient(fadeFraction, rgbColor1, rgbColor2, rgbColor3) {
@@ -77,19 +77,21 @@ function colorGradient(fadeFraction, rgbColor1, rgbColor2, rgbColor3) {
   var diffBlue = color2.blue - color1.blue;
 
   var gradient = {
-    red: parseInt(Math.floor(color1.red + (diffRed * fade)), 10),
-    green: parseInt(Math.floor(color1.green + (diffGreen * fade)), 10),
-    blue: parseInt(Math.floor(color1.blue + (diffBlue * fade)), 10),
+    red: parseInt(Math.floor(color1.red + diffRed * fade), 10),
+    green: parseInt(Math.floor(color1.green + diffGreen * fade), 10),
+    blue: parseInt(Math.floor(color1.blue + diffBlue * fade), 10)
   };
 
-  return 'rgb(' + gradient.red + ',' + gradient.green + ',' + gradient.blue + ')';
+  return (
+    'rgb(' + gradient.red + ',' + gradient.green + ',' + gradient.blue + ')'
+  );
 }
 
 const ProductCard = props => {
   const { className, benchmark, ...rest } = props;
-  const date = new Date(Date.parse(benchmark.last_modified))
+  const date = new Date(Date.parse(benchmark.last_modified));
 
-  console.log(benchmark)
+  console.log(benchmark);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -98,10 +100,7 @@ const ProductCard = props => {
     datasets: [
       {
         data: [score, 100 - score],
-        backgroundColor: [
-          color,
-          theme.palette.ligth_grey,
-        ],
+        backgroundColor: [color, theme.palette.ligth_grey],
         borderWidth: 4,
         borderColor: theme.palette.white,
         hoverBorderColor: theme.palette.white
@@ -133,103 +132,79 @@ const ProductCard = props => {
   };
 
   const download = async () => {
-    const res = await session.get('/hw_benchmark/files/'+benchmark.uuid)
+    const res = await session.get('/hw_benchmark/files/' + benchmark.uuid);
 
-    const blob = new Blob([res.data], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, benchmark.uuid +'.json');
-  }
+    const blob = new Blob([res.data], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, benchmark.uuid + '.json');
+  };
 
   const open_image = () => {
-    const url = `${api_url}hw_benchmark/files/${benchmark.uuid}.png`
-    window.open(url, "_blank");
-  }
+    const url = `${api_url}hw_benchmark/files/${benchmark.uuid}.png`;
+    window.open(url, '_blank');
+  };
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
-        <Grid
-          container
-          spacing={3}
-        >
-          {benchmark.body.overall && benchmark.body.overall.map((e, i) => (
-            <Grid xs={6} container key={e.uuid}>
-              <Grid xs={12} item >
-                <Doughnut
-                  className={classes.graph}
-                  data={data(e.score, colorGradient(e.score / 100, rgb(255, 0, 0), rgb(255, 255, 0), rgb(0, 255, 0)), e.name)}
-                  options={options}
-                />
+        <Grid container spacing={3}>
+          {benchmark.body.overall &&
+            benchmark.body.overall.map((e, i) => (
+              <Grid xs={6} container key={e.uuid}>
+                <Grid xs={12} item>
+                  <Doughnut
+                    className={classes.graph}
+                    data={data(
+                      e.score,
+                      colorGradient(
+                        e.score / 100,
+                        rgb(255, 0, 0),
+                        rgb(255, 255, 0),
+                        rgb(0, 255, 0)
+                      ),
+                      e.name
+                    )}
+                    options={options}
+                  />
+                </Grid>
+                <Grid xs={12} item>
+                  <Typography align="center" gutterBottom variant="h5">
+                    {e.name} - {e.score}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid xs={12} item>
-                <Typography
-                  align="center"
-                  gutterBottom
-                  variant="h5">
-                  {e.name} - {e.score}
-                </Typography>
-              </Grid>
-            </Grid>))}
+            ))}
         </Grid>
 
         <Typography
           align="center"
           gutterBottom
           variant="h4"
-          style={{marginTop:10}}
-        >
-          {benchmark.body.meta.bot_type}, {benchmark.body.meta.release}, {benchmark.body.meta.target}
+          style={{ marginTop: 10 }}>
+          {benchmark.body.meta.bot_type}, {benchmark.body.meta.release},{' '}
+          {benchmark.body.meta.target}
         </Typography>
-        <Typography
-          align="center"
-          variant="body1"
-        >
+        <Typography align="center" variant="body1">
           {benchmark.uuid}
         </Typography>
       </CardContent>
       <Divider />
       <CardActions>
-        <Grid
-          container
-          justify="space-between"
-        >
-          <Grid
-            className={classes.statsItem}
-            item
-          >
+        <Grid container justify="space-between">
+          <Grid className={classes.statsItem} item>
             <AccessTimeIcon className={classes.statsIcon} />
-            <Typography
-              display="inline"
-              variant="body2"
-            >
-              {date.toLocaleString("en-US")}
+            <Typography display="inline" variant="body2">
+              {date.toLocaleString('en-US')}
             </Typography>
           </Grid>
-          <Grid
-            className={classes.clickable}
-            item
-            onClick={open_image}
-          >
+          <Grid className={classes.clickable} item onClick={open_image}>
             <GetAppIcon className={classes.statsIcon} />
-            <Typography
-              display="inline"
-              variant="body2"
-            >
+            <Typography display="inline" variant="body2">
               Image
             </Typography>
           </Grid>
-          <Grid
-            className={classes.clickable}
-            item
-            onClick={download}
-          >
+          <Grid className={classes.clickable} item onClick={download}>
             <GetAppIcon className={classes.statsIcon} />
-            <Typography
-              display="inline"
-              variant="body2"
-            >
+            <Typography display="inline" variant="body2">
               Download
             </Typography>
           </Grid>

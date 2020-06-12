@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {DropzoneArea} from 'material-ui-dropzone'
+import { DropzoneArea } from 'material-ui-dropzone';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -37,25 +37,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
-class DropzoneAreaExample extends Component{
-  constructor(props){
+class DropzoneAreaExample extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       files: []
     };
   }
-  handleChange(files){
+  handleChange(files) {
     this.setState({
       files: files
     });
   }
-  render(){
-    return (
-      <DropzoneArea
-        onChange={this.handleChange.bind(this)}
-        />
-    )
+  render() {
+    return <DropzoneArea onChange={this.handleChange.bind(this)} />;
   }
 }
 
@@ -65,22 +60,12 @@ const ProductCard = props => {
   const classes = useStyles();
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
-        >
+        <Typography align="center" gutterBottom variant="h4">
           {product.title}
         </Typography>
-        <Typography
-          align="center"
-          variant="body1"
-        >
+        <Typography align="center" variant="body1">
           {product.description}
         </Typography>
       </CardContent>
