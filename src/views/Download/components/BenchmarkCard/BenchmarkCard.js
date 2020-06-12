@@ -17,7 +17,7 @@ import { saveAs } from 'file-saver';
 import { session } from 'common/session';
 import { api_url } from 'config';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   imageContainer: {
     //height: 64,
@@ -87,7 +87,7 @@ function colorGradient(fadeFraction, rgbColor1, rgbColor2, rgbColor3) {
   );
 }
 
-const ProductCard = props => {
+const ProductCard = (props) => {
   const { className, benchmark, ...rest } = props;
   const date = new Date(Date.parse(benchmark.last_modified));
 

@@ -6,7 +6,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { session } from 'common/session';
 
 import { ProductsToolbar, BenchmarkCard } from './components';
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3)
   },
@@ -30,7 +30,7 @@ const ProductList = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const retrieveBM = async page => {
+    const retrieveBM = async (page) => {
       const res = await session.get('/hw_benchmark/files');
       setBenchmarks(res.data.data);
       setMaxPage(res.data.meta.last_page);
@@ -43,7 +43,7 @@ const ProductList = () => {
     <div className={classes.root}>
       <div className={classes.content}>
         <Grid container spacing={3}>
-          {benchmarks.map(bm => (
+          {benchmarks.map((bm) => (
             <Grid item key={bm.uuid} lg={4} md={6} xs={12}>
               <BenchmarkCard benchmark={bm} />
             </Grid>

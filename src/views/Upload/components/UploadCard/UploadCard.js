@@ -12,7 +12,7 @@ import {
   LinearProgress
 } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   imageContainer: {
     height: 64,
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DropzoneAreaExample = props => {
+const DropzoneAreaExample = (props) => {
   const { filetype, onUpload, ...rest } = props;
   return (
     <DropzoneArea
@@ -52,7 +52,7 @@ const DropzoneAreaExample = props => {
   );
 };
 
-const UploadCard = props => {
+const UploadCard = (props) => {
   const { className, product, progress, ...rest } = props;
 
   const classes = useStyles();

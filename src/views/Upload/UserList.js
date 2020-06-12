@@ -6,7 +6,7 @@ import { UploadCard, MetaCard } from './components';
 import files_config from './files_config';
 import { session } from 'common/session';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3)
   },
@@ -59,7 +59,7 @@ const UserList = () => {
                   title: f.title,
                   description: f.description,
                   filetype: f.filetype,
-                  onUpload: files => handleChange(files, f.key)
+                  onUpload: (files) => handleChange(files, f.key)
                 }}
               />
             </Grid>

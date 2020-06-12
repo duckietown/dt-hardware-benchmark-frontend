@@ -16,7 +16,7 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UsersByDevice = props => {
+const UsersByDevice = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -120,7 +120,7 @@ const UsersByDevice = props => {
           <Doughnut data={data} options={options} />
         </div>
         <div className={classes.stats}>
-          {devices.map(device => (
+          {devices.map((device) => (
             <div className={classes.device} key={device.title}>
               <span className={classes.deviceIcon}>{device.icon}</span>
               <Typography variant="body1">{device.title}</Typography>

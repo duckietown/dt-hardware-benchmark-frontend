@@ -11,7 +11,7 @@ import {
   Divider
 } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   imageContainer: {
     height: 64,
@@ -54,7 +54,7 @@ class DropzoneAreaExample extends Component {
   }
 }
 
-const ProductCard = props => {
+const ProductCard = (props) => {
   const { className, product, ...rest } = props;
 
   const classes = useStyles();

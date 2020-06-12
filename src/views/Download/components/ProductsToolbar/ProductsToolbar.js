@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 
 import { SearchInput } from 'components';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   row: {
     height: '42px',
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProductsToolbar = props => {
+const ProductsToolbar = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
