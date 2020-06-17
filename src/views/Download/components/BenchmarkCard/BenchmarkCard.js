@@ -89,9 +89,7 @@ function colorGradient(fadeFraction, rgbColor1, rgbColor2, rgbColor3) {
 
 const ProductCard = (props) => {
   const { className, benchmark, ...rest } = props;
-  const date = new Date(Date.parse(benchmark.last_modified));
-
-  console.log(benchmark);
+  const date = new Date(benchmark.last_modified);
 
   const classes = useStyles();
   const theme = useTheme();

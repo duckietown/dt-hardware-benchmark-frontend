@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { IconButton, Grid, Typography } from '@material-ui/core';
+import { IconButton, Grid, Typography, Button } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { session } from 'common/session';
@@ -25,19 +25,29 @@ const ProductList = () => {
   const classes = useStyles();
 
   const [benchmarks, setBenchmarks] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(0);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const retrieveBM = async (page) => {
-      const res = await session.get('/hw_benchmark/files');
-      setBenchmarks(res.data.data);
+      const res = await session.get(`/hw_benchmark/files?page=${page}`);
+      const bm_clone = JSON.parse(JSON.stringify(benchmarks))
+      
+      setBenchmarks(bm_clone.concat(res.data.data));
       setMaxPage(res.data.meta.last_page);
       setTotal(res.data.meta.total);
     };
     retrieveBM(page);
   }, [page]);
+
+
+
+  const nextPage = () => {
+    if(page < maxPage){
+      setPage(page + 1)
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -52,14 +62,15 @@ const ProductList = () => {
       </div>
       <div className={classes.pagination}>
         <Typography variant="caption">
-          1-{page * 25 + benchmarks.length} of {total}
+          1-{benchmarks.length} of {total}
         </Typography>
-        <IconButton>
+        <Button onClick={nextPage}>Load More</Button>
+        {/*<IconButton onClick={prevPage}>
           <ChevronLeftIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={nextPage}>
           <ChevronRightIcon />
-        </IconButton>
+          </IconButton>*/}
       </div>
     </div>
   );

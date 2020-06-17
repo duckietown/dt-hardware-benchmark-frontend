@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const postFiles = async (data, meta) => {
-  console.log(meta);
+  console.log(JSON.stringify(meta));
   data.append('meta', JSON.stringify(meta));
 
   const result = await session.post('/hw_benchmark/files', data);
@@ -25,10 +25,10 @@ const postFiles = async (data, meta) => {
 
 const UserList = () => {
   const classes = useStyles();
-  const [data, _] = useState(new FormData());
-  const [progress, set_progress] = useState({});
+  const [data, ] = useState(new FormData());
+  const [progress, ] = useState({});
   const [meta, set_meta] = useState({});
-  const [complete, setComplete] = useState(true);
+  const [complete, ] = useState(true);
 
   const upload = () => {
     postFiles(data, meta);
@@ -46,6 +46,7 @@ const UserList = () => {
       data.append(key, up[0]);
     }
   };
+
 
   return (
     <div className={classes.root}>
