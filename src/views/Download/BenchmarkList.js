@@ -32,8 +32,9 @@ const ProductList = () => {
   useEffect(() => {
     const retrieveBM = async (page) => {
       const res = await session.get(`/hw_benchmark/files?page=${page}`);
+      console.log(res)
       const bm_clone = JSON.parse(JSON.stringify(benchmarks))
-      
+      console.log(bm_clone.concat(res.data.data))
       setBenchmarks(bm_clone.concat(res.data.data));
       setMaxPage(res.data.meta.last_page);
       setTotal(res.data.meta.total);
