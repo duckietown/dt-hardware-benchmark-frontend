@@ -2,7 +2,7 @@
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
-![alt text](http://url/to/img.png)
+![Title_image](https://github.com/duckietown/dt-hardware-benchmark-frontend/blob/master/score_display.png)
 
 
 ## Quick start
@@ -38,4 +38,3 @@ docker run
 ## License
 
 - Licensed under MIT (https://github.com/devias-io/react-material-dashboard/blob/master/LICENSE.md)
-
