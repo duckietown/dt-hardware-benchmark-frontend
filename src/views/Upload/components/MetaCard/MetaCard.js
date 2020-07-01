@@ -8,7 +8,6 @@ import {
   CardActions,
   Typography,
   Divider,
-  FormControl,
   Select,
   MenuItem,
   InputLabel
@@ -58,7 +57,9 @@ const UploadCard = (props) => {
       res.data.dropdowns.forEach((element) => {
         sel[element.key] = element.content[element.content.length - 1];
       });
+      console.log(sel)
       setMeta_selected(sel);
+      onChange(sel);
       setMeta(res.data);
     };
     retrieveBMmeta();
@@ -85,19 +86,19 @@ const UploadCard = (props) => {
       <CardActions>
         {meta && meta['dropdowns']
           ? meta.dropdowns.map((dd) => (
-              <div key={dd.key}>
-                <InputLabel id="demo-simple-select-label">{dd.name}</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={meta_selected[dd.key]}
-                  onChange={(evt) => handleChange(evt, dd.key)}>
-                  {dd.content.map((elem) => (
-                    <MenuItem value={elem}>{elem}</MenuItem>
-                  ))}
-                </Select>
-              </div>
-            ))
+            <div key={dd.key}>
+              <InputLabel id="demo-simple-select-label">{dd.name}</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={meta_selected[dd.key]}
+                onChange={(evt) => handleChange(evt, dd.key)}>
+                {dd.content.map((elem) => (
+                  <MenuItem value={elem}>{elem}</MenuItem>
+                ))}
+              </Select>
+            </div>
+          ))
           : ''}
       </CardActions>
       <Divider />

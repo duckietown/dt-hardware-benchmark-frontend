@@ -45,7 +45,9 @@ const OverallCard = (props) => {
 
 
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
+    <Card {...rest} $
+      className={
+        clsx(classes.root, className)}>
       <CardContent>
         <BMCardContent overall={overall}/>
         <Typography
