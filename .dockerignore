@@ -1,3 +1,11 @@
 .git
 node_modules
 build
+Readme.md
+.env.*
+.eslintrc
+.prettierignore
+.prettierrc
+LICENSE.md
+score_display.png
+
