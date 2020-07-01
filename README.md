@@ -27,8 +27,16 @@ The documentation for the React Material Kit is can be found [here](https://mate
 
 👉[Download Figma file](https://devias.s3.eu-west-2.amazonaws.com/products/react-material-dashboard/react-material-dashboard-free.fig)
 
-## Deploy
+## Build and run
+```bash
+dts devel build -f --arch amd64
 
+docker run -it -p 3000:80 --rm duckietown/dt-hardware-benchmark-frontend:to_dt_project-amd64
+```
+
+
+**Dev**
+using `Dockerfile-dev`
 ```bash
 docker build . -t bm_frontend
 
