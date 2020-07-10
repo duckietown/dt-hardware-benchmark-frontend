@@ -1,39 +1,48 @@
+ARG REPO_NAME="dt-hardware-benchmark-frontend"
+
+ARG ARCH=arm32v7
+ARG MAJOR=daffy
+ARG BASE_TAG=${MAJOR}-${ARCH}
+ARG BASE_IMAGE=nginx:alpine
+
 # set the base image
-# n/b: for production, node is only used for building 
-# the static Html and javascript files
-# as react creates static html and js files after build
-# these are what will be served by nginx
-# use alias build to be easier to refer this container elsewhere
-# e.g inside nginx container
 FROM node:alpine as build
-# set working directory
-# this is the working folder in the container
-# from which the app will be running from
+
 WORKDIR /app
-# copy everything to /app directory
-# as opposed to on dev, in prod everything is copied to docker
 COPY . /app
+
 # add the node_modules folder to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 # install and cache dependencies
-RUN npm install --production --silent
+RUN npm install --production --silent && npm audit fix
 #build the project for production
 RUN npm run build
 
-
 # the base image for this is an alpine based nginx image
-FROM nginx:alpine
-# copy the build folder from react to the root of nginx (www)
+FROM ${BASE_IMAGE}
 COPY --from=build /app/build /usr/share/nginx/html
-# --------- only for those using react router ----------
-# if you are using react router 
-# you need to overwrite the default nginx configurations
-# remove default nginx configuration file
 RUN rm /etc/nginx/conf.d/default.conf
 # replace with custom one
 COPY nginx.conf /etc/nginx/conf.d
-# --------- /only for those using react router ----------
-# expose port 80 to the outer world
 EXPOSE 80
 # start nginx 
 CMD ["nginx", "-g", "daemon off;"]
+
+# store module name
+LABEL org.duckietown.label.module.type "${REPO_NAME}"
+ENV DT_MODULE_TYPE "${REPO_NAME}"
+
+# store module metadata
+ARG ARCH
+ARG MAJOR
+ARG BASE_TAG
+ARG BASE_IMAGE
+LABEL org.duckietown.label.architecture "${ARCH}"
+LABEL org.duckietown.label.code.location "${REPO_PATH}"
+LABEL org.duckietown.label.code.version.major "${MAJOR}"
+LABEL org.duckietown.label.base.image "${BASE_IMAGE}:${BASE_TAG}"
+# <== Do not change this code
+# <==================================================
+
+# maintainer
+LABEL maintainer="Luzian Bieri (luzibier@ethz.ch)"

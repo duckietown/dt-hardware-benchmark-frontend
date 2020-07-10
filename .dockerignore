@@ -8,4 +8,5 @@ Readme.md
 .prettierrc
 LICENSE.md
 score_display.png
-
+.bumpversion.cfg
+.dtproject
