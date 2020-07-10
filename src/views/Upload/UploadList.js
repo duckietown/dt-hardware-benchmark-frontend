@@ -23,7 +23,7 @@ const postFiles = async (data, meta) => {
   console.log(result);
 };
 
-const UserList = () => {
+const UploadList = () => {
   const classes = useStyles();
   const [data, ] = useState(new FormData());
   const [progress, ] = useState({});
@@ -81,4 +81,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default UploadList;

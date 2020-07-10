@@ -17,11 +17,7 @@ const Icons = () => {
 
   return (
     <div className={classes.root}>
-      <iframe
-        className={classes.iframe}
-        src="https://material.io/tools/icons/?icon=accessibility&style=outline"
-        title="Material Design icons"
-      />
+      Reserved
     </div>
   );
 };

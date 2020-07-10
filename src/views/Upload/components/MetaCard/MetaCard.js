@@ -10,7 +10,8 @@ import {
   Divider,
   Select,
   MenuItem,
-  InputLabel
+  InputLabel, 
+  TextField
 } from '@material-ui/core';
 import { session } from 'common/session';
 
@@ -57,6 +58,9 @@ const UploadCard = (props) => {
       res.data.dropdowns.forEach((element) => {
         sel[element.key] = element.content[element.content.length - 1];
       });
+      res.data.textfields.forEach((element) => {
+        sel[element.key] = element.default;
+      });
       console.log(sel)
       setMeta_selected(sel);
       onChange(sel);
@@ -97,6 +101,32 @@ const UploadCard = (props) => {
                   <MenuItem value={elem}>{elem}</MenuItem>
                 ))}
               </Select>
+            </div>
+          ))
+          : ''}
+      </CardActions>
+      <CardActions>
+        {meta && meta['textfields']
+          ? meta.textfields.map((t) => (
+            <div key={t.key}>
+              <TextField 
+                defaultValue={t.default} 
+                id="standard-required" 
+                label={t.name} 
+                onChange={(evt) => handleChange(evt, t.key)}
+                required 
+              />
+              {console.log(t)}
+              {/*<InputLabel id="demo-simple-select-label">{dd.name}</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={meta_selected[dd.key]}
+                onChange={(evt) => handleChange(evt, dd.key)}>
+                {dd.content.map((elem) => (
+                  <MenuItem value={elem}>{elem}</MenuItem>
+                ))}
+                </Select>*/}
             </div>
           ))
           : ''}
